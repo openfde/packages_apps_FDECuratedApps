@@ -1,0 +1,45 @@
+-keep class com.android.contacts.model.Sources {
+  public <init>(...);
+}
+
+# The support library contains references to newer platform versions.
+# Don't warn about those in case this app is linking against an older
+# platform version.  We know about them, and they are safe.
+-dontwarn android.support.**
+
+# Xml files containing onClick (menus and layouts) require that proguard not
+# remove their handlers.
+-keepclassmembers class * extends android.app.Activity {
+  public void *(android.view.View);
+  public void *(android.view.MenuItem);
+}
+
+-keep class com.google.common.base.Function { *; }
+-keep class com.google.common.base.Functions { *; }
+-keep class com.google.common.base.Objects { *; }
+-keep class com.google.common.base.Preconditions { *; }
+-keep class com.google.common.collect.** { *; }
+-keep class com.google.common.util.concurrent.** { *; }
+
+-keep class com.android.common.widget.CompositeCursorAdapter { *; }
+
+# Any class or method annotated with NeededForReflection.
+-keep @com.android.contacts.test.NeededForReflection class *
+-keepclassmembers class * {
+@com.android.contacts.test.NeededForReflection *;
+}
+
+# Keep classes and methods that have the guava @VisibleForTesting annotation
+-keep @com.google.common.annotations.VisibleForTesting class *
+-keepclassmembers class * {
+  @com.google.common.annotations.VisibleForTesting *;
+}
+
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}

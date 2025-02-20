@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Outer circle -->
+    <item>
+        <shape>
+            <solid android:color="@color/white" />
+            <corners android:radius="300dp" />
+        </shape>
+    </item>
+
+    <!-- Inner circle (creates the ring effect by overlaying a smaller circle) -->
+    <item
+        android:bottom="3dp"
+        android:left="3dp"
+        android:right="3dp"
+        android:top="3dp">
+        <shape>
+            <solid android:color="@color/panel_background_color" />
+            <corners android:radius="280dp" />
+        </shape>
+    </item>
+
+</layer-list>
