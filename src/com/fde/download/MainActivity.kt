@@ -75,6 +75,7 @@ class MainActivity : ComponentActivity() {
             if (service is DownloadService.DownloadBinder) {
                 downloadService = service.getService()
             }
+			initData()
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -122,8 +123,6 @@ class MainActivity : ComponentActivity() {
         intentService = Intent(this, DownloadService::class.java)
         startService(intentService)
         bindService(intentService, connection, Context.BIND_AUTO_CREATE)
-
-        initData()
 
         val intentFilter = IntentFilter().apply {
             addAction(Intent.ACTION_PACKAGE_INSTALL)
@@ -507,7 +506,7 @@ class MainActivity : ComponentActivity() {
             EventBus.getDefault().unregister(this)
             intentService?.let { stopService(it) }  // 如果 intentService 不为 null，则调用 stopService
             connection?.let { unbindService(it) }   // 如果 connection 不为 null，则调用 unbindService
-            android.os.Process.killProcess(android.os.Process.myPid());
+            //android.os.Process.killProcess(android.os.Process.myPid());
             // unregisterReceiver(mInstallResultReceiver)
         } catch (e: Exception) {
             e.printStackTrace()
