@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
@@ -14,6 +15,8 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -61,9 +64,13 @@ class MainActivity : ComponentActivity() {
     private lateinit var context: Context
 
     private lateinit var nextBtn: Button
+    private lateinit var imgLoading: ImageView
     private lateinit var recyclerView: RecyclerView
     private lateinit var downloadingRecyclerView: RecyclerView
     private lateinit var noDownloadingRecyclerView: RecyclerView
+
+    private var frameAnimation: AnimationDrawable? = null
+
 
     private val appAdapter = AppAdapter()
     private val appDownloadAdapter = AppDownloadAdapter()
@@ -86,6 +93,7 @@ class MainActivity : ComponentActivity() {
     private val handler = Handler(Looper.getMainLooper()) {
         when (it.what) {
             SUCCESS -> {
+                hideProgressDialog();
                 appAdapter.setAppDownloadInfoList(singleton.getAppDownloadInfoList())
                 installApp()
                 // recyclerView.visibility = View.VISIBLE
@@ -123,6 +131,8 @@ class MainActivity : ComponentActivity() {
         intentService = Intent(this, DownloadService::class.java)
         startService(intentService)
         bindService(intentService, connection, Context.BIND_AUTO_CREATE)
+        showProgressDialog();
+        
 
         val intentFilter = IntentFilter().apply {
             addAction(Intent.ACTION_PACKAGE_INSTALL)
@@ -135,7 +145,8 @@ class MainActivity : ComponentActivity() {
 
     private fun initView() {
         nextBtn = findViewById<Button>(R.id.nextBtn)  ?: throw IllegalArgumentException("Button not found")
-        recyclerView = findViewById<RecyclerView>(R.id.application_recycler_view)  ?: throw IllegalArgumentException("RecyclerView not found") 
+        imgLoading = findViewById<ImageView>(R.id.imgLoading)?: throw IllegalArgumentException("ImageView not found")
+	    recyclerView = findViewById<RecyclerView>(R.id.application_recycler_view)  ?: throw IllegalArgumentException("RecyclerView not found") 
         downloadingRecyclerView = findViewById<RecyclerView>(R.id.downloadingRecyclerView)  ?: throw IllegalArgumentException("RecyclerView not found") 
         noDownloadingRecyclerView = findViewById<RecyclerView>(R.id.noDownloadingRecyclerView)  ?: throw IllegalArgumentException("RecyclerView not found") 
 
@@ -191,6 +202,20 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun showProgressDialog() {
+        nextBtn?.visibility = View.GONE
+        imgLoading?.visibility = View.VISIBLE
+        imgLoading?.setBackgroundResource(R.drawable.frame_animation)
+        frameAnimation = imgLoading?.getBackground() as AnimationDrawable
+        frameAnimation?.start()
+    }
+
+    private fun hideProgressDialog() {
+        nextBtn?.visibility = View.VISIBLE
+        imgLoading?.visibility = View.GONE
+        frameAnimation?.stop()
+        imgLoading?.clearAnimation()
+    }
     private fun parseContent( jsonResponse:String){
         try {
             val jsonArray = JsonParser.parseString(jsonResponse).asJsonArray
@@ -316,7 +341,8 @@ class MainActivity : ComponentActivity() {
             return
         }
         appDownloadInfo.progress = progress
-        appDownloadAdapter.updateProgress(appName)
+        // appDownloadAdapter.updateProgress(appName)
+        appDownloadAdapter.notifyDataSetChanged()
     }
 
     fun requestFinish(appName: String) {

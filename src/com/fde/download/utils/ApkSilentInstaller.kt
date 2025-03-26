@@ -34,6 +34,7 @@ class ApkSilentInstaller {
         @RequiresApi(Build.VERSION_CODES.Q)
         @Synchronized
         fun enqueueInstall(context: Context, appName: String, apkFilePath: String) {
+            Log.w(TAG,"enqueueInstall........")
             installQueue.add(InstallRequest(appName, apkFilePath))
             startNextAppInstallation(context)
         }
@@ -44,6 +45,7 @@ class ApkSilentInstaller {
         @RequiresApi(Build.VERSION_CODES.Q)
         @Synchronized
         fun startNextAppInstallation(context: Context) {
+            Log.w(TAG,"startNextAppInstallation........")
             if (installQueue.isEmpty() || isInstalling) return
             isInstalling = true
             val installRequest = installQueue.poll()
@@ -62,8 +64,8 @@ class ApkSilentInstaller {
          */
         @RequiresApi(Build.VERSION_CODES.Q)
         fun installApk(context: Context, installRequest: InstallRequest?): Boolean? {
-            installRequest ?: return null
             Log.w(TAG,"installApk........")
+            installRequest ?: return null
             val appName = installRequest.appName
             val apkFilePath = installRequest.apkFilePath
             EventBus.getDefault().post(Event(EventType.INSTALL_STARTED, appName))
@@ -162,7 +164,7 @@ class ApkSilentInstaller {
                     context,
                     1,
                     intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT 
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
                 )
                 session.commit(pendingIntent.intentSender)
             } catch (e: IOException) {

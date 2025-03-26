@@ -31,7 +31,7 @@ class AppNoDownloadAdapter(
         val appDownloadInfo = appDownloadInfoList[position]
         val appName = appDownloadInfo.appInfo.name
         val bitmap = appDownloadInfo.bitmap
-        holder.appName.text = appName
+        holder.appName.text = appName?.replace("_"," ")
         holder.appIcon.setImageBitmap(bitmap)
 
         holder.downloadBtn.setOnClickListener {
