@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit
 
 object HttpUtils {
     private const val TAG = "HttpUtils"
-    const val APP_INFO_URL = "https://gitee.com/openfde/provision/releases/download/1.3.2/apps.json"
+    //const val APP_INFO_URL = "https://gitee.com/openfde/provision/releases/download/1.3.2/apps.json"
+    const val APP_INFO_URL = "https://gitee.com/openfde/provision/releases/download/14_2.0.1/14apps.json"
 
     private val client: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(5, TimeUnit.SECONDS)
