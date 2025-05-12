@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FdePreInstaller</string>
+    <string name="app_name">FDE Curated Apps</string>
 
     <string name="skip">Skip</string>
     <!-- download app page -->
