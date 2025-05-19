@@ -1,5 +1,5 @@
 android_app {
-    name: "FdePreInstaller",
+    name: "FDECuratedApps",
     srcs: ["**/*.kt","**/*.java"],
 	resource_dirs: ["res"],
     platform_apis: true,
