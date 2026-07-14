@@ -41,4 +41,5 @@
     <color name="download_button_color">#59409EFF</color>
     <color name="update_bg">#ebf5ff</color>
     <color name="install_bg">#0080ff</color>
+    <color name="install_bg_un">#87CEFA</color>
 </resources>

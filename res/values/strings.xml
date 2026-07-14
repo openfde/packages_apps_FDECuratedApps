@@ -22,4 +22,6 @@
     <string name="check">Check for updates</string>
     <string name="update">Update</string>
     <string name="latest_version">  already the latest version</string>
+    <string name="down_success">update success</string>
+    <string name="down_failed">update failed</string>
 </resources>

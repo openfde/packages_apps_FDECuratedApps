@@ -53,6 +53,9 @@ class MainActivity : ComponentActivity() {
         const val IS_NOT_SELECTED = false
 
         var DOWNLOAD_STATUS = 0
+
+        const val DOWN_SUCCESS = 22
+        const val DOWN_FAILURE = 33
     }
 
     private val TAG = "DownloadAppActivity"
@@ -96,11 +99,25 @@ class MainActivity : ComponentActivity() {
                 hideProgressDialog();
                 appAdapter.setAppDownloadInfoList(singleton.getAppDownloadInfoList())
                 installApp()
-                // recyclerView.visibility = View.VISIBLE
+                // recyclerView.visibility = View.VISIBLEdInfoList size ${appDownloadInf
             }
 
             FAILURE, ERROR -> {
                 // recyclerView.visibility = View.INVISIBLE
+            }
+            DOWN_SUCCESS -> {
+                Toast.makeText(
+                    context,
+                    "${context.getString(R.string.down_success)}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            DOWN_FAILURE -> {
+                Toast.makeText(
+                    context,
+                    " ${context.getString(R.string.down_failed)}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         true
@@ -167,7 +184,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initData() {
         if(Utils.isNetworkAvailable(context)){
-            getAppInfoList()
+            getAppInfoList(1)
         }else{
             getRawList()
         }
@@ -181,7 +198,7 @@ class MainActivity : ComponentActivity() {
 //            noDownloadingRecyclerView.setVisibility(View.VISIBLE);
 //            installApp();
 //            }
-            getAppInfoList()
+            getAppInfoList(2)
         }
     }
 
@@ -216,7 +233,7 @@ class MainActivity : ComponentActivity() {
         frameAnimation?.stop()
         imgLoading?.clearAnimation()
     }
-    private fun parseContent( jsonResponse:String){
+    private fun parseContent( jsonResponse:String,type: Int){
         try {
             val jsonArray = JsonParser.parseString(jsonResponse).asJsonArray
             val appInfoList = mutableListOf<AppInfo>()
@@ -289,7 +306,9 @@ class MainActivity : ComponentActivity() {
             }
             singleton.setAppDownloadInfoList(appDownloadInfoList)
             singleton.setRequestStatus(RequestStatus.REQUEST_SUCCESS)
-            Log.w(TAG, "appDownloadInfoList size ${appDownloadInfoList.size}")
+            if(type == 2){
+                handler.sendMessage(handler.obtainMessage(DOWN_SUCCESS))
+            }
             handler.sendMessage(handler.obtainMessage(SUCCESS))
         } catch (e: Exception) {
             e.printStackTrace()
@@ -300,19 +319,20 @@ class MainActivity : ComponentActivity() {
         val inputStream = context.resources.openRawResource(R.raw.apps)
         val jsonString = inputStream.bufferedReader().use { it.readText() }
         if (jsonString != null) {
-            parseContent(jsonString)
+            parseContent(jsonString,1)
         }
     }
 
-    private fun getAppInfoList() {
+    private fun getAppInfoList(type: Int) {
         if (!singleton.hasNetworkRequestSucceeded()) {
+            Log.w(TAG,"getAppInfoList........not hasNetworkRequestSucceeded......");
             HttpUtils.get(HttpUtils.APP_INFO_URL, object : HttpUtils.HttpCallback {
                 override fun onResponse(response: okhttp3.Response) {
                     try {
                         val jsonResponse = response.body()?.string()
                         Log.w(TAG, "jsonResponse:  ${jsonResponse}")
                         if (jsonResponse != null) {
-                            parseContent(jsonResponse)
+                            parseContent(jsonResponse,type)
                         }
                     } catch (e: Exception) {
                         singleton.setRequestStatus(RequestStatus.REQUEST_FAILED)
@@ -322,16 +342,18 @@ class MainActivity : ComponentActivity() {
 
                 override fun onFailure(e: Exception) {
                     Log.e(TAG, "http failure exception = ${e.message}")
-                    handler.sendMessage(handler.obtainMessage(FAILURE))
+                    handler.sendMessage(handler.obtainMessage(DOWN_FAILURE))
                 }
 
                 override fun onError(e: IOException) {
                     Log.e(TAG, "http error exception = ${e.message}")
-                    handler.sendMessage(handler.obtainMessage(ERROR))
+                    handler.sendMessage(handler.obtainMessage(DOWN_FAILURE))
                 }
             })
         } else {
-            handler.sendMessage(handler.obtainMessage(SUCCESS))
+            if(2 == type){
+                handler.sendMessage(handler.obtainMessage(DOWN_SUCCESS))
+            }
         }
     }
 
