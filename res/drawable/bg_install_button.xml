@@ -13,7 +13,7 @@
     <item android:state_pressed="true">
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:useLevel="false">
             <!--填充色-->
-            <solid android:color="@color/install_bg"/>
+            <solid android:color="@color/install_bg_un"/>
             <!--圆角-->
             <corners android:radius="50dp"/>
         </shape>
@@ -23,7 +23,7 @@
     <item android:state_focused="true">
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:useLevel="false">
             <!--填充色-->
-            <solid android:color="@color/install_bg"/>
+            <solid android:color="@color/install_bg_un"/>
             <!--圆角-->
             <corners android:radius="50dp"/>
         </shape>
