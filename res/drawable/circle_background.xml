@@ -4,7 +4,7 @@
     <!-- Outer circle -->
     <item>
         <shape>
-            <solid android:color="@color/white" />
+            <solid android:color="@color/card_background" />
             <corners android:radius="300dp" />
         </shape>
     </item>

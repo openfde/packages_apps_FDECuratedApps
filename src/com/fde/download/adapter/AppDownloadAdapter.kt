@@ -1,7 +1,6 @@
 package com.fde.download.adapter
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -48,7 +47,7 @@ class AppDownloadAdapter(
 
         holder.appProgressBar.progress = progress
         holder.appProgressBar.progressTintList =
-            ColorStateList.valueOf(Color.BLUE)
+            ColorStateList.valueOf(holder.itemView.context.getColor(R.color.progress_bar_normal))
         holder.stopBtn.setOnClickListener {
             EventBus.getDefault().post(appName?.let { it1 -> Event(EventType.DOWNLOAD_STOP, it1) })
         }
@@ -59,11 +58,11 @@ class AppDownloadAdapter(
             holder.stopBtn.setBackground(holder.itemView.context.getDrawable(R.drawable.bg_install_button))
         }else if(appDownloadInfo.appInfo.isUpdate){
             holder.stopBtn.text = holder.itemView.context.getString(R.string.update)
-            holder.stopBtn.setTextColor(holder.itemView.context.getColor(R.color.install_bg))
+            holder.stopBtn.setTextColor(holder.itemView.context.getColor(R.color.button_text_on_update))
             holder.stopBtn.setBackground(holder.itemView.context.getDrawable(R.drawable.bg_update_button))
         }else{
             holder.stopBtn.text = holder.itemView.context.getString(R.string.installed)
-            holder.stopBtn.setTextColor(holder.itemView.context.getColor(R.color.install_bg))
+            holder.stopBtn.setTextColor(holder.itemView.context.getColor(R.color.button_text_on_update))
             holder.stopBtn.setBackground(holder.itemView.context.getDrawable(R.drawable.bg_update_button))
         }
 
@@ -76,7 +75,7 @@ class AppDownloadAdapter(
             EventType.INSTALL_COMPLETED -> {
                 holder.stopBtn.isClickable = UNCLICKABLE
                 holder.stopBtn.text = holder.itemView.context.getString(R.string.installed)
-                holder.stopBtn.setTextColor(holder.itemView.context.getColor(R.color.install_bg))
+                holder.stopBtn.setTextColor(holder.itemView.context.getColor(R.color.button_text_on_update))
                 holder.stopBtn.setBackground(holder.itemView.context.getDrawable(R.drawable.bg_update_button))
             }
 
@@ -84,7 +83,7 @@ class AppDownloadAdapter(
                 holder.stopBtn.isClickable = CLICKABLE
                 holder.stopBtn.text = holder.itemView.context.getString(R.string.cancel)
                 holder.appProgressBar.progressTintList =
-                    ColorStateList.valueOf(Color.BLUE)
+                    ColorStateList.valueOf(holder.itemView.context.getColor(R.color.progress_bar_normal))
                 holder.stopBtn.setOnClickListener {
                     EventBus.getDefault().post(appName?.let { it1 ->
                         Event(
@@ -99,7 +98,7 @@ class AppDownloadAdapter(
                 holder.stopBtn.isClickable = CLICKABLE
                 holder.stopBtn.text = holder.itemView.context.getString(R.string.retry)
                 holder.appProgressBar.progressTintList =
-                    ColorStateList.valueOf(Color.RED)
+                    ColorStateList.valueOf(holder.itemView.context.getColor(R.color.progress_bar_error))
                 holder.stopBtn.setOnClickListener {
                     EventBus.getDefault().post(appName?.let { it1 ->
                         Event(

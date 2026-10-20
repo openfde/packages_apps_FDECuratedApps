@@ -42,4 +42,13 @@
     <color name="update_bg">#ebf5ff</color>
     <color name="install_bg">#0080ff</color>
     <color name="install_bg_un">#87CEFA</color>
+
+    <!-- Semantic colors (day / light mode default) -->
+    <color name="page_background">#F5F5F5</color>
+    <color name="card_background">@color/white</color>
+    <color name="text_primary">#FF333333</color>
+    <color name="text_summary">#FF333333</color>
+    <color name="button_text_on_update">#FF0080FF</color>
+    <color name="progress_bar_normal">#FF0000FF</color>
+    <color name="progress_bar_error">#FFFF0000</color>
 </resources>

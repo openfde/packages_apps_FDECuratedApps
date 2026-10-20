@@ -39,6 +39,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/bg_download_button"
         android:text="@string/install"
+        android:textColor="@color/button_text_on_update"
         app:layout_constraintBottom_toBottomOf="@id/appIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/appIcon" />

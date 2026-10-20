@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Dark mode (night) colors -->
+    <color name="all_bg">#FF1E1E1E</color>
+    <color name="legal_webview_bg">#FF2C2C2C</color>
+    <color name="legal_checkbox_text">#FFE0E0E0</color>
+
+    <color name="show_text_color">#FFE0E0E0</color>
+
+    <color name="panel_title_color">#FFE0E0E0</color>
+    <color name="panel_background_color">#FF242424</color>
+    <color name="list_color">#FFE0E0E0</color>
+    <color name="list_summary_color">#FFC0C0C0</color>
+
+    <color name="update_bg">#FF243447</color>
+    <color name="download_button_color">#4D409EFF</color>
+
+    <!-- Semantic colors (night overrides) -->
+    <color name="page_background">#FF1E1E1E</color>
+    <color name="card_background">#FF2C2C2C</color>
+    <color name="text_primary">#FFEDEDED</color>
+    <color name="text_summary">#FFB0B0B0</color>
+    <color name="button_text_on_update">#FF66B3FF</color>
+    <color name="progress_bar_normal">#FF0000FF</color>
+    <color name="progress_bar_error">#FFFF0000</color>
+</resources>
