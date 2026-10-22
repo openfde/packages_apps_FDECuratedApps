@@ -3,13 +3,17 @@
 // the project root) and points the Android Gradle Plugin at those directories
 // via sourceSets.
 plugins {
-    id 'com.android.application' version '8.2.2'
-    id 'org.jetbrains.kotlin.android' version '1.9.22'
+    id 'com.android.application' version '8.9.1'
+    // Kotlin 2.x is required to read the metadata (mv 2.1.0) of the appfunctions alpha08 AARs.
+    // 2.2.10 matches the FDE Launcher3 gradle-modules toolchain.
+    id 'org.jetbrains.kotlin.android' version '2.2.10'
 }
 
 android {
     namespace 'com.fde.download'
-    compileSdk 34
+    // compileSdk 36 is required by the appfunctions alpha08 AAR's aar-metadata.properties
+    // (minCompileSdk=36, minAgpVersion 8.9.1). The Soong build (real artifact) is unaffected.
+    compileSdk 36
 
     defaultConfig {
         applicationId 'com.fde.download.debug'
@@ -63,6 +67,14 @@ dependencies {
         'libs/gson-2.10.jar',
         'libs/eventbus.jar'
     )
+
+    // AppFunctions (androidx) for the curated apps store, same version as the FDE Launcher3
+    // gradle-modules prebuilts (alpha08) so gradle and Soong builds stay aligned.
+    // The appfunctions KSP processor is intentionally NOT enabled here: it stack-overflows with
+    // the Maven Kotlin toolchain (same as FDE Launcher3). AppFunction metadata is generated only
+    // by the Soong build; it is not required for this dev build.
+    implementation 'androidx.appfunctions:appfunctions:1.0.0-alpha08'
+    implementation 'androidx.appfunctions:appfunctions-service:1.0.0-alpha08'
 
     implementation 'androidx.activity:activity:1.9.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'

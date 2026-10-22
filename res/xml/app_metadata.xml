@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App metadata companion file for the FDE curated apps store AppFunctions.
+     Consumed by the appfunctions KSP compiler plugin (Soong build) to produce the
+     runtime app-functions metadata; the file itself is inert for the Gradle dev build. -->
+<AppFunctionAppMetadata xmlns:appfn="http://schemas.android.com/apk/androidx.appfunctions"
+    appfn:description="
+This tool drives the FDE curated apps store. It can list the applications curated by the FDE
+distribution and install any of them silently in the background.
+
+The functions available are:
+
+QUERY FUNCTIONS:
+- getAvailableApps(): Returns the list of curated apps, each with its package name, curated
+  version and the current install / update state, so a caller can discover what is installable.
+
+ACTION FUNCTIONS:
+- downloadAndInstallApp(packageName, appName): Submits a background download and silent install
+  of a curated app, identified either by its package name (preferred, e.g. com.tencent.mm) or by
+  its curated display name (e.g. 微信). The call returns immediately after submitting the task;
+  the download and install continue asynchronously. QoS semantics: the function does not block
+  until installation is complete.
+"
+appfn:displayDescription="@string/curated_apps_functions_app_display_description" />

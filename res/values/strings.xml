@@ -24,4 +24,7 @@
     <string name="latest_version">  already the latest version</string>
     <string name="down_success">update success</string>
     <string name="down_failed">update failed</string>
+
+    <!-- AppFunction metadata (res/xml/app_metadata.xml) -->
+    <string name="curated_apps_functions_app_display_description" translatable="false">A tool to list and install the FDE curated apps</string>
 </resources>

@@ -16,6 +16,7 @@
 
 
     <application
+        android:name=".DownloadApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/icon_launcher"

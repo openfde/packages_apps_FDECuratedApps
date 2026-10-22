@@ -18,7 +18,20 @@ android_app {
         "down_static_libs",
 		"kotlinx-coroutines-android",
         "kotlinx-coroutines-core",
-		"kotlin-stdlib", 
+		"kotlin-stdlib",
+        // AppFunctions (androidx) for exposing the curated apps store to AppFunction clients.
+        // The appfunctions-service AAR manifest is merged in automatically, registering the
+        // PlatformAppFunctionService / ExtensionAppFunctionService.
+        "androidx.appfunctions_appfunctions",
+        "androidx.appfunctions_appfunctions-service",
     ],
+	libs: [
+        // Only needed at link time to resolve optional deps from the support library.
+        "com.android.extensions.appfunctions.stubs",
+    ],
+    plugins: ["androidx.appfunctions_appfunctions-compiler-plugin"],
+    kotlincflags: ["-Xjvm-default=all"],
+    enable_ksp: true, // required for appfunctions
+    optional_uses_libs: ["com.android.extensions.appfunctions"],
 	manifest: "AndroidManifest.xml",
 }
